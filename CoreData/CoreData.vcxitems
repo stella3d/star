@@ -14,11 +14,13 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Matrices.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Color.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FloatVectors.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Matrices.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Mesh.h" />
   </ItemGroup>
 </Project>
