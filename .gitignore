@@ -1,0 +1,8 @@
+
+*/x64/**
+AssetDatabase/x64/**
+
+*.obj
+*.log
+*.tlog
+*.pch
