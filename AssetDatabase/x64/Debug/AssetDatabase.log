@@ -1,0 +1,14 @@
+﻿  pch.cpp
+  Mesh.cpp
+  Asset.cpp
+  AssetImporter.cpp
+  AssetImportTask.cpp
+  AssetUtils.cpp
+  dllmain.cpp
+  MeshAssetImporter.cpp
+  PlyImporter.cpp
+C:\Users\stella\star\AssetDatabase\PlyImporter.cpp(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\stella\star\AssetDatabase\PlyImporter.cpp(166,57): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\stella\star\AssetDatabase\PlyImporter.cpp(166,38): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
+  Generating Code...
+  AssetDatabase.vcxproj -> C:\Users\stella\source\repos\Star Engine\x64\Debug\AssetDatabase.dll
