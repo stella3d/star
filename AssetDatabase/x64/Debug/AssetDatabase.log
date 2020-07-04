@@ -1,14 +1,20 @@
-﻿  pch.cpp
-  Mesh.cpp
+﻿  Using triplet "x64-windows" from "C:\Users\stella\tools\vcpkg\installed\x64-windows\"
   Asset.cpp
-  AssetImporter.cpp
+  AssetDatabase.cpp
+C:\Users\stella\star\AssetDatabase\AssetDatabase.h(18,51): warning C4251: 'StarEditor::AssetDatabase::headerFileExtension': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'StarEditor::AssetDatabase'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xstring(4575): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\stella\star\AssetDatabase\AssetDatabase.h(24,25): warning C4251: 'StarEditor::AssetDatabase::m_rootPath': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'StarEditor::AssetDatabase'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xstring(4575): message : see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\stella\star\AssetDatabase\AssetDatabase.h(29,65): warning C4251: 'StarEditor::AssetDatabase::idToRelativePath': class 'std::unordered_map<StarEditor::AssetID,std::string,std::hash<StarEditor::AssetID>,std::equal_to<StarEditor::AssetID>,std::allocator<std::pair<const StarEditor::AssetID,std::string>>>' needs to have dll-interface to be used by clients of class 'StarEditor::AssetDatabase'
+C:\Users\stella\star\AssetDatabase\AssetDatabase.h(29): message : see declaration of 'std::unordered_map<StarEditor::AssetID,std::string,std::hash<StarEditor::AssetID>,std::equal_to<StarEditor::AssetID>,std::allocator<std::pair<const StarEditor::AssetID,std::string>>>'
+  AssetID.cpp
   AssetImportTask.cpp
-  AssetUtils.cpp
-  dllmain.cpp
+  AssetImporter.cpp
   MeshAssetImporter.cpp
   PlyImporter.cpp
-C:\Users\stella\star\AssetDatabase\PlyImporter.cpp(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\stella\star\AssetDatabase\PlyImporter.cpp(166,57): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\stella\star\AssetDatabase\PlyImporter.cpp(166,38): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
+C:\Users\stella\star\AssetDatabase\PlyImporter.h(9,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\stella\star\AssetDatabase\PlyImporter.cpp(163,57): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\stella\star\AssetDatabase\PlyImporter.cpp(163,38): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
   Generating Code...
-  AssetDatabase.vcxproj -> C:\Users\stella\source\repos\Star Engine\x64\Debug\AssetDatabase.dll
+     Creating library C:\Users\stella\star\x64\Debug\AssetDatabase.lib and object C:\Users\stella\star\x64\Debug\AssetDatabase.exp
+  AssetDatabase.vcxproj -> C:\Users\stella\star\x64\Debug\AssetDatabase.dll

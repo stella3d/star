@@ -6,6 +6,7 @@
 #include <chrono>
 #include "AssetImportTask.h"
 #include "MeshAssetImporter.h"
+#include "FloatVectors.h";
 
 #include "Dependencies/tinyply/tinyply.h"
 using namespace tinyply;

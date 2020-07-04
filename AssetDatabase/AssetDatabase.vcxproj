@@ -155,6 +155,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Asset.h" />
+    <ClInclude Include="AssetDatabase.h" />
+    <ClInclude Include="AssetID.h" />
     <ClInclude Include="AssetImporter.h" />
     <ClInclude Include="AssetImportTask.h" />
     <ClInclude Include="AssetUtils.h" />
@@ -165,6 +167,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />
+    <ClCompile Include="AssetDatabase.cpp" />
+    <ClCompile Include="AssetID.cpp" />
     <ClCompile Include="AssetImporter.cpp" />
     <ClCompile Include="AssetImportTask.cpp" />
     <ClCompile Include="AssetUtils.cpp" />
@@ -177,6 +181,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PlyImporter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreUtils\CoreUtils.vcxproj">
+      <Project>{68c61ed8-a449-4311-ae77-02c6b147e084}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

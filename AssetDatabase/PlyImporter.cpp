@@ -1,7 +1,4 @@
-#include "pch.h"
 #include "PlyImporter.h"
-
-#include "FloatVectors.h";
 
 using namespace StarEngine;
 
