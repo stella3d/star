@@ -1,3 +1,4 @@
+#pragma once
 namespace StarEngine
 {
 	struct float2
@@ -5,6 +6,7 @@ namespace StarEngine
 	public:
 		float x, y;
 
+		float2() : x(0.f), y(0.f) {}
 		float2(float x, float y) : x(x), y(y) {}
 
 		float Dot(const float2 a, const float2 b)
@@ -40,6 +42,7 @@ namespace StarEngine
 	public:
 		float x, y, z, w;
 
+		float4() : x(0.f), y(0.f), z(0.f), w(1.0f) {}
 		float4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
 		float Dot(const float4 a, const float4 b)

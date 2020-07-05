@@ -21,6 +21,11 @@ namespace StarEngine
 		{
 		}
 
+		float3 GetTranslation()
+		{
+			return *(float3*) &matrix[12];
+		}
+
 	private:
 		float matrix[16];
 	};

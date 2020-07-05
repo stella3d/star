@@ -1,4 +1,5 @@
 #include "PlyImporter.h"
+#include <Mesh.h>
 
 using namespace StarEngine;
 
@@ -8,12 +9,12 @@ namespace StarEditor
     {
         ReadPlyFile(path, true);
 
+        // TODO - might leak memory ?
         Asset* newAsset = new Asset(path);
 
         // pretend this is async
         auto task = AssetImportTask(true);
         task.asset = *newAsset;
-
         return task;
     }
 
@@ -170,22 +171,54 @@ namespace StarEditor
             if (faces)      std::cout << "\tRead " << faces->count << " total faces (triangles) " << std::endl;
             if (tripstrip)  std::cout << "\tRead " << (tripstrip->buffer.size_bytes() / tinyply::PropertyTable[tripstrip->t].stride) << " total indicies (tristrip) " << std::endl;
 
-            /*
+            
+            std::cout << "\nnow comes our code???\n" << std::endl;
+
+
             // Example One: converting to your own application types
+            auto verts = * new std::vector<float3>(vertices->count);
+            std::memcpy(verts.data(), vertices->buffer.get(), vertices->buffer.size_bytes());
+
+            std::cout << "\ntrying to copy verts did not crash it" << std::endl;
+
+            std::cout << "\nfaces count  :  " << faces->count << " buffer byte count  :  " << faces->buffer.size_bytes() << std::endl;
+
+            auto tris = * new std::vector<uint32_t>(faces->count * 3);
+            std::memcpy(tris.data(), faces->buffer.get(), faces->buffer.size_bytes());
+
+            std::cout << "\ntrying to copy tris did not crash it" << std::endl;
+
+            if (verts.size() > 0)
+                std::cout << "\nwe have vertices parsed!" << std::endl;
+            if (tris.size() > 0)
+                std::cout << "\nwe have triangles parsed!" << std::endl;
+            
+            std::vector<float3> norms;
+            if (normals)
             {
-                const size_t numVerticesBytes = vertices->buffer.size_bytes();
-                std::vector<float3> verts(vertices->count);
-                std::memcpy(verts.data(), vertices->buffer.get(), numVerticesBytes);
+                norms = std::vector<float3>(normals->count);
+                std::memcpy(norms.data(), normals->buffer.get(), normals->buffer.size_bytes());
+            }
+            
+            std::vector<Color32> clrs;
+            if (colors)
+            {
+                clrs = std::vector<Color32>(colors->count);
+                std::memcpy(clrs.data(), colors->buffer.get(), colors->buffer.size_bytes());
             }
 
-            // Example Two: converting to your own application type
+            std::vector<float2> uv;
+            if (texcoords)
             {
-                std::vector<float3> verts_floats;
-                std::vector<double3> verts_doubles;
-                if (vertices->t == tinyply::Type::FLOAT32) { } // as floats
-                if (vertices->t == tinyply::Type::FLOAT64) { } // as doubles
+                uv = std::vector<float2>(texcoords->count);
+                std::memcpy(uv.data(), texcoords->buffer.get(), texcoords->buffer.size_bytes());
             }
-            */
+
+            if (verts.size() > 0)
+            {
+                StandardMesh* mesh = new StandardMesh(verts, norms, tris, uv, clrs);
+                std::cout << "\nGot to mesh creation step! " << std::endl;
+            }
             
         }
         catch (const std::exception& e)

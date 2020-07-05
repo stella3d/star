@@ -9,21 +9,14 @@ namespace StarEditor
 	/// <summary>
 	/// Unique ID for an asset.  bit-for-bit identical to a GUID, but usable in hash maps more easily
 	/// </summary>
-	struct AssetID
+	struct __declspec(dllexport) AssetID
 	{
 	public:
+#pragma warning (suppress:26495)	// CoCreateGuid initializes both members
 		AssetID()
 		{
-			// TODO - this is probably a memory leak, but had issues with making it work with a static member
-			GUID guid;
-			GUID* gPtr = &guid;
-			CoCreateGuid(gPtr);
-			// TODO - probably a better way to do this copy all at once
-			long* longPtr = (long*)gPtr;
-			data1 = *longPtr;
-			data2 = *(longPtr + 1);
+			CoCreateGuid((GUID*) &data1);
 		}
-
 		inline size_t GetHashCode() const
 		{
 			return data1 + 397 ^ data2;
@@ -40,8 +33,8 @@ namespace StarEditor
 		}
 
 	private:
-		long data1;
-		long data2;
+		uint64_t data1;
+		uint64_t data2;
 	};
 }
 

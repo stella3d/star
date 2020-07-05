@@ -6,16 +6,17 @@
 #include <chrono>
 #include "AssetImportTask.h"
 #include "MeshAssetImporter.h"
-#include "FloatVectors.h";
 
 #include "Dependencies/tinyply/tinyply.h"
 using namespace tinyply;
 
 namespace StarEditor
 {
-    class PlyImporter : MeshAssetImporter
+    class __declspec(dllexport) PlyImporter : MeshAssetImporter
     {
     public:
+        PlyImporter(){}
+
         AssetImportTask ImportFile(const std::string& path) override;
 
     private:

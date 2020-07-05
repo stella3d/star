@@ -6,7 +6,7 @@
 
 namespace StarEditor
 {
-	class Asset
+	class __declspec(dllexport) Asset
 	{
 		AssetID m_id;
 

@@ -17,14 +17,32 @@ namespace StarEngine
 		std::vector<float3> vertices;
 		std::vector<float3> normals;
 		std::vector<float2> uv;
-		std::vector<int> triangles;
 
-		std::vector<TIndex> indices;
+		std::vector<TIndex> triangles;
 		std::vector<TColor> colors;
+
+		Mesh(std::vector<float3> verts, std::vector<float3> norms, std::vector<TIndex> tris)
+		{
+			vertices = verts;
+			normals = norms;
+			triangles = tris;
+			uv = NULL;
+			colors = NULL;
+		}
+
+		Mesh(std::vector<float3> verts, std::vector<float3> norms, std::vector<TIndex> tris, 
+			 std::vector<float2> uvs, std::vector<TColor> colorsValue)
+		{
+			vertices = verts;
+			normals = norms;
+			triangles = tris;
+			uv = uvs;
+			colors = colorsValue;
+		}
 	};
 
 	/// <summary>
-	/// Mesh using 16-bit indices and RGBA32 vertex colors
+	/// Mesh using 32-bit indices and RGBA32 vertex colors
 	/// </summary>
-	class StandardMesh : Mesh<uint16_t, Color32> {};
+	using StandardMesh = Mesh<uint32_t, Color32>;
 }

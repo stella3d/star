@@ -3,7 +3,7 @@
 
 namespace StarEditor
 {
-	class AssetImportTask
+	class __declspec(dllexport) AssetImportTask
 	{
 	public:
 		AssetImportTask() {}

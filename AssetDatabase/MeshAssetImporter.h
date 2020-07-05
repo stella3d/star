@@ -1,9 +1,10 @@
 #pragma once
 #include "AssetImporter.h"
+#include "Mesh.h";
 
 namespace StarEditor
 {
-	class MeshAssetImporter : public AssetImporter
+	class MeshAssetImporter : public AssetImporter<StarEngine::StandardMesh>
 	{
 	};
 }
