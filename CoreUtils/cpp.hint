@@ -1,0 +1,2 @@
+#define COREUTILS_API __declspec(dllexport)
+#define COREUTILS_API __declspec(dllimport)
