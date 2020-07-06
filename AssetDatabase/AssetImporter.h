@@ -4,11 +4,7 @@
 
 namespace StarEditor
 {
-	template <typename...> class AssetImporter;
-
-	template <typename TAsset>
-
-	class AssetImporter<TAsset>
+	class AssetImporter
 	{
 	public:
 		AssetImporter() {}

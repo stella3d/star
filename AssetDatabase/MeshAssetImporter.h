@@ -4,7 +4,7 @@
 
 namespace StarEditor
 {
-	class MeshAssetImporter : public AssetImporter<StarEngine::StandardMesh>
+	class MeshAssetImporter : public AssetImporter
 	{
 	};
 }
