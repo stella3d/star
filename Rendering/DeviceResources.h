@@ -140,4 +140,13 @@ namespace DX
         // The IDeviceNotify can be held directly as it owns the DeviceResources.
         IDeviceNotify*                                  m_deviceNotify;
     };
+
+    inline void ThrowIfFailed(HRESULT hr)
+    {
+        if (FAILED(hr))
+        {
+            // Set a breakpoint on this line to catch DirectX API errors
+            throw std::exception();
+        }
+    }
 }

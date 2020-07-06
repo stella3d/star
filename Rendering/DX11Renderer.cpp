@@ -9,6 +9,14 @@ namespace StarEngine
 		ID3D11Buffer* index;
 	};
 
+	inline D3D11_SUBRESOURCE_DATA GetSubResourceDataForBuffer(const void* dataPtr)
+	{
+		D3D11_SUBRESOURCE_DATA srData;
+		srData.pSysMem = dataPtr;
+		srData.SysMemPitch = 0;
+		srData.SysMemSlicePitch = 0;
+		return srData;
+	}
 	
 	bool DX11Renderer::CreateMeshVertexAndIndexBuffers(const StandardMesh& mesh)
 	{
@@ -16,14 +24,14 @@ namespace StarEngine
 		ID3D11Buffer* indexBufferGPtr = CreateIndexBuffer(tris.data(), tris.size());
 		
 		auto verts = mesh.vertices;
-		ID3D11Buffer* vertexBufferGPtr = CreateVertexBuffer(verts.data(), verts.size());
+		ID3D11Buffer* vertexBufferGPtr = CreateVertexBuffer<float3>(verts.data(), verts.size());
 		return true;
 	}
 
 	ID3D11Buffer* DX11Renderer::CreateIndexBuffer(const uint32_t* dataPtr, const size_t elementCount)
 	{
 		D3D11_BUFFER_DESC bufferDesc = GetIndexBufferDescription(elementCount);
-		D3D11_SUBRESOURCE_DATA resourceData = DX11Renderer::GetSubResourceDataForBuffer((void*) dataPtr);
+		D3D11_SUBRESOURCE_DATA resourceData = GetSubResourceDataForBuffer((void*) dataPtr);
 
 		ID3D11Buffer* newIndexBufferPtr = NULL;
 		g_D11Device->CreateBuffer(&bufferDesc, &resourceData, &newIndexBufferPtr);
@@ -54,17 +62,8 @@ namespace StarEngine
 		indexBufferDescription.MiscFlags = 0;
 	}
 
-	inline D3D11_SUBRESOURCE_DATA GetSubResourceDataForBuffer(const void* dataPtr)
-	{
-		D3D11_SUBRESOURCE_DATA srData;
-		srData.pSysMem = dataPtr;
-		srData.SysMemPitch = 0;
-		srData.SysMemSlicePitch = 0;
-		return srData;
-	}
-
 	template<typename TVertex>
-	inline D3D11_BUFFER_DESC DX11Renderer::GetVertexBufferDescription<TVertex>(unsigned int elementCount)
+	inline D3D11_BUFFER_DESC DX11Renderer::GetVertexBufferDescription(unsigned int elementCount)
 	{
 		D3D11_BUFFER_DESC bufferDesc = *&vertexBufferDescription; // copy a desc with most things setup
 		bufferDesc.ByteWidth = sizeof(TVertex) * elementCount;
@@ -73,7 +72,7 @@ namespace StarEngine
 
 	inline D3D11_BUFFER_DESC DX11Renderer::GetIndexBufferDescription(unsigned int elementCount)
 	{
-		D3D11_BUFFER_DESC bufferDesc = *&indexBufferDescription; // copy a desc with most things  setup
+		D3D11_BUFFER_DESC bufferDesc = *&indexBufferDescription; // copy a desc with most things setup
 		bufferDesc.ByteWidth = sizeof(unsigned int) * elementCount;
 		return bufferDesc;
 	}

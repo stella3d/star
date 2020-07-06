@@ -8,9 +8,6 @@ namespace StarEngine
 	{
 
 	public:
-		template<typename TVertex>
-		ID3D11Buffer* CreateVertexBuffer(const TVertex* dataPtr, const size_t length);
 
-		virtual ID3D11Buffer* CreateIndexBuffer(const uint32_t* dataPtr, const size_t length);
 	};
 }
