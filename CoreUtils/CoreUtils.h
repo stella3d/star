@@ -11,25 +11,10 @@
 #endif
 
 #include "MemoryHandle.h"
+#include "Allocator.h"
 
 namespace StarEngine
 {
-	// This class is exported from the dll
-	class COREUTILS_API MemoryHandle
-	{
-	public:
-		MemoryHandle(void* ptr, const size_t length) : m_ptr(ptr), m_length(length) {}
-		// TODO: add your methods here.
-
-		void* GetPtr() { return m_ptr; }
-		size_t GetLength() { return m_length; }
-
-
-	private:
-		void* m_ptr;
-		size_t m_length;
-	};
-
 	// This class is exported from the dll
 	class COREUTILS_API CoreUtils {
 	public:
