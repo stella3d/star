@@ -1,14 +1,11 @@
 #pragma once
-#include <memory>
-#include <mimalloc.h>
-#include <mimalloc-new-delete.h>
+#include <stddef.h>
 
-namespace StarEngine
+namespace StarEngine { namespace Memory
 {
-	class COREUTILS_API Allocator
+	class Allocator
 	{
     public:
-        typedef std::shared_ptr<class Allocator> Ref;
 
         /** Return a pointer to 's' bytes of memory that are unused by
             the rest of the program.  The contents are undefined */
@@ -17,50 +14,39 @@ namespace StarEngine
         /** Free() an existing chunk of memory and allocate a new one of size 'newSize' */
         virtual void* Realloc(void* ptr, size_t newSize) { return NULL; }
 
-        /** Declare that this memory will no longer be used by
-            the program.  The allocator is not required to actually
-            reuse or release this memory. */
+        //Declare that this memory will no longer be used by the program.
         virtual void Free(void* ptr) {}
+
+        // Get the instance of this allocator
+        inline static Allocator& Get()
+        { 
+            static Allocator instance;
+            return instance; 
+        }
+    private:
+        //typedef std::shared_ptr<class Allocator> Ref;
+        //static Ref s_instance;
 	};
 
     // General-purpose allocator, a fast replacement for malloc
     // Currently wraps Microsoft's 'mimalloc' - https://github.com/microsoft/mimalloc
-    class COREUTILS_API GeneralAllocator : Allocator
+    class GeneralAllocator : Allocator
     {
     public:
-        inline void* Alloc(size_t size) override
-        {
-            return mi_malloc(size);
-        }
+        inline void* Alloc(size_t size) override;
+        
+        inline void* Realloc(void* ptr, size_t size) override;
+        
+        inline void Free(void* ptr) override;
 
-        inline void* Realloc(void* ptr, size_t size) override
-        {
-            return mi_realloc(ptr, size);
-        }
-
-        inline void Free(void* ptr) override
-        {
-            mi_free(ptr);
+        inline static GeneralAllocator Get() {
+            static GeneralAllocator instance;
+            return instance;
         }
     };
 
-    // should only be used as a fallback
-    class COREUTILS_API Mallocator : Allocator
-    {
-    public:
-        inline void* Alloc(size_t size) override
-        {
-            return malloc(size);
-        }
-
-        inline void* Realloc(void* ptr, size_t size) override
-        {
-            return realloc(ptr, size);
-        }
-
-        inline void Free(void* ptr) override
-        {
-            free(ptr);
-        }
-    };
-}
+    // static wrappers for the general allocator
+    static void gAlloc(const size_t size);
+    static void gRealloc(void* ptr, const size_t size);
+    static void gFree(void* ptr);
+}}

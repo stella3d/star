@@ -1,23 +1,14 @@
-// CoreUtils.cpp : Defines the exported functions for the DLL.
+// CoreUtils.cpp : Defines the functions for the static library.
 //
-
-#include "CoreUtils.h"
+#include "Allocator.h"
 
 namespace StarEngine
 {
-    // This is an example of an exported variable
-    COREUTILS_API int nCoreUtils = 0;
+	// TODO: This is an example of a library function
+	void fnCoreUtils()
+	{
+	}
 
-    // This is an example of an exported function.
-    COREUTILS_API int fnCoreUtils(void)
-    {
-        return 0;
-    }
 
-    // This is the constructor of a class that has been exported.
-    CoreUtils::CoreUtils()
-    {
-        return;
-    }
+	
 }
-

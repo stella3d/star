@@ -3,6 +3,9 @@
 
 namespace StarEngine
 {
+	/// <summary>
+	/// Row-major 4x4 single precision matrix
+	/// </summary>
 	struct Matrix4x4
 	{
 	public:
