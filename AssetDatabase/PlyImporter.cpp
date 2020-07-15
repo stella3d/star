@@ -183,7 +183,7 @@ namespace StarEditor
 
             std::cout << "\nfaces count  :  " << faces->count << " buffer byte count  :  " << faces->buffer.size_bytes() << std::endl;
 
-            auto tris = * new std::vector<uint32_t>(faces->count * 3);
+            auto tris = * new std::vector<uint16_t>(faces->count * 3);
             std::memcpy(tris.data(), faces->buffer.get(), faces->buffer.size_bytes());
 
             std::cout << "\ntrying to copy tris did not crash it" << std::endl;
