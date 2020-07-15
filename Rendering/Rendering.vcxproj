@@ -156,6 +156,7 @@
     <ClInclude Include="DX11Renderer.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RendererData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceResources.cpp" />
@@ -165,6 +166,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreContainers\CoreContainers.vcxproj">
+      <Project>{c7b45ee4-7c26-4090-8a52-9b95ffd6cbc6}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,13 +1,23 @@
 #include "DX11Renderer.h"
 
-namespace StarEngine
+namespace StarEngine { namespace Rendering { namespace DX11
 {
-	struct MeshGpuBuffers
+	inline XMFLOAT4X4 Convert(StarEngine::Matrix4x4 m)
 	{
-	public:
-		ID3D11Buffer* vertex;
-		ID3D11Buffer* index;
-	};
+		return *(XMFLOAT4X4*)&m;
+	}
+
+	inline D3D11_BUFFER_DESC GetTransformConstantBufferDescription()
+	{
+		D3D11_BUFFER_DESC bufferDesc = { 0 };
+		bufferDesc.ByteWidth = sizeof(TransformConstantBuffer);
+		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		bufferDesc.CPUAccessFlags = 0;
+		bufferDesc.MiscFlags = 0;
+		bufferDesc.StructureByteStride = 0;
+		return bufferDesc;
+	}
 
 	inline D3D11_SUBRESOURCE_DATA GetSubResourceDataForBuffer(const void* dataPtr)
 	{
@@ -18,20 +28,33 @@ namespace StarEngine
 		return srData;
 	}
 	
-	bool DX11Renderer::CreateMeshVertexAndIndexBuffers(const StandardMesh& mesh)
+	bool DX11Renderer::CreateMeshGpuResources(StandardMesh& mesh)
 	{
 		auto tris = mesh.triangles;
-		ID3D11Buffer* indexBufferGPtr = CreateIndexBuffer(tris.data(), tris.size());
+		size_t triSize = tris.size();
+		ID3D11Buffer* indexBufferGPtr = CreateIndexBuffer<uint16_t>(tris.data(), triSize);
 		
 		auto verts = mesh.vertices;
-		ID3D11Buffer* vertexBufferGPtr = CreateVertexBuffer<float3>(verts.data(), verts.size());
+		size_t vertSize = verts.size();
+		ID3D11Buffer* vertexBufferGPtr = CreateVertexBuffer<float3>(verts.data(), vertSize);
+
+		MeshGpuBuffers buffers = MeshGpuBuffers(indexBufferGPtr, vertexBufferGPtr);
+		LinkMeshResources(mesh, buffers);
 		return true;
 	}
 
-	ID3D11Buffer* DX11Renderer::CreateIndexBuffer(const uint32_t* dataPtr, const size_t elementCount)
+	inline void DX11Renderer::LinkMeshResources(StandardMesh& mesh, const MeshGpuBuffers& buffers)
 	{
-		D3D11_BUFFER_DESC bufferDesc = GetIndexBufferDescription(elementCount);
-		D3D11_SUBRESOURCE_DATA resourceData = GetSubResourceDataForBuffer((void*) dataPtr);
+		// TODO - be able to free indices in this list and use them for other meshes
+		mesh.SetGpuResourceIndex(m_meshGpuResources.size());
+		m_meshGpuResources.push_back(buffers);
+	}
+
+	template<typename TIndex>
+	ID3D11Buffer* DX11Renderer::CreateIndexBuffer(const TIndex* dataPtr, const size_t elementCount)
+	{
+		D3D11_BUFFER_DESC bufferDesc = GetIndexBufferDescription<TIndex>(elementCount);
+		D3D11_SUBRESOURCE_DATA resourceData = GetSubResourceDataForBuffer(dataPtr);
 
 		ID3D11Buffer* newIndexBufferPtr = NULL;
 		g_D11Device->CreateBuffer(&bufferDesc, &resourceData, &newIndexBufferPtr);
@@ -48,6 +71,16 @@ namespace StarEngine
 		g_D11Device->CreateBuffer(&bufferDesc, &resourceData, &newVertexBufferPtr);
 		return newVertexBufferPtr;
 	}
+
+	ID3D11Buffer* DX11Renderer::CreateTransformConstantBuffer(const TransformConstantBuffer* dataPtr)
+	{
+		D3D11_BUFFER_DESC bufferDesc = GetTransformConstantBufferDescription();
+		D3D11_SUBRESOURCE_DATA resourceData = GetSubResourceDataForBuffer(dataPtr);
+
+		ID3D11Buffer* newBufferPtr = NULL;
+		g_D11Device->CreateBuffer(&bufferDesc, &resourceData, &newBufferPtr);
+		return newBufferPtr;
+	}
 	
 	void DX11Renderer::InitBufferDescriptions()
 	{
@@ -63,17 +96,23 @@ namespace StarEngine
 	}
 
 	template<typename TVertex>
-	inline D3D11_BUFFER_DESC DX11Renderer::GetVertexBufferDescription(unsigned int elementCount)
+	inline D3D11_BUFFER_DESC DX11Renderer::GetVertexBufferDescription(const unsigned int elementCount)
 	{
 		D3D11_BUFFER_DESC bufferDesc = *&vertexBufferDescription; // copy a desc with most things setup
 		bufferDesc.ByteWidth = sizeof(TVertex) * elementCount;
 		return bufferDesc;
 	}
 
-	inline D3D11_BUFFER_DESC DX11Renderer::GetIndexBufferDescription(unsigned int elementCount)
+	template<typename TIndex>
+	inline D3D11_BUFFER_DESC DX11Renderer::GetIndexBufferDescription(const unsigned int elementCount)
 	{
 		D3D11_BUFFER_DESC bufferDesc = *&indexBufferDescription; // copy a desc with most things setup
-		bufferDesc.ByteWidth = sizeof(unsigned int) * elementCount;
+		bufferDesc.ByteWidth = sizeof(TIndex) * elementCount;
 		return bufferDesc;
 	}
-}
+
+	inline TransformConstantBuffer* DX11Renderer::GetTransformMatrices(const XMFLOAT4X4& objectToWorldSpace)
+	{
+		return new TransformConstantBuffer(objectToWorldSpace, m_viewMatrix, m_projectionMatrix);
+	}
+}}}
